@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      expenses: {
+        Row: {
+          amount: number | null
+          created_at: string
+          description: string
+          id: string
+          is_card_fee: boolean
+          payer: Database["public"]["Enums"]["party"]
+          updated_by: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_card_fee?: boolean
+          payer?: Database["public"]["Enums"]["party"]
+          updated_by?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_card_fee?: boolean
+          payer?: Database["public"]["Enums"]["party"]
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      items: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          quantity: number
+          sale_value: number
+          supplier: Database["public"]["Enums"]["party"]
+          unit_cost: number
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          quantity?: number
+          sale_value?: number
+          supplier?: Database["public"]["Enums"]["party"]
+          unit_cost?: number
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          quantity?: number
+          sale_value?: number
+          supplier?: Database["public"]["Enums"]["party"]
+          unit_cost?: number
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      receipts: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          is_refund: boolean
+          received_by: string
+          updated_by: string | null
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          is_refund?: boolean
+          received_by?: string
+          updated_by?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          is_refund?: boolean
+          received_by?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +115,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      party: "EU" | "HELLIOS" | "COMPARTILHADO"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +242,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      party: ["EU", "HELLIOS", "COMPARTILHADO"],
+    },
   },
 } as const
