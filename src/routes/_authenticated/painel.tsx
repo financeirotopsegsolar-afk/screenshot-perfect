@@ -47,7 +47,7 @@ function Painel() {
     load();
     supabase.auth.getUser().then(({ data }) => {
       const u = data.user;
-      setMe((u?.user_metadata?.display_name as string) || u?.email || "");
+      setMe((u?.user_metadata?.["display_name"] as string) || u?.email || "");
     });
     const channel = supabase
       .channel(`painel-${Math.random().toString(36).slice(2)}`)
