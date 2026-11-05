@@ -17,20 +17,20 @@ const receipts: Receipt[] = [
 
 describe("divisão justa", () => {
   const r = compute(items, expenses, receipts);
-  it("mão de obra = recebido − vendas − taxas, 50/50", () => {
-    expect(r.laborTotal).toBe(400);
-    expect(r.eu.labor).toBe(200);
-    expect(r.hellios.labor).toBe(200);
+  it("mão de obra = recebido líquido − vendas, 50/50, sem duplicar taxa", () => {
+    expect(r.laborTotal).toBe(450);
+    expect(r.eu.labor).toBe(225);
+    expect(r.hellios.labor).toBe(225);
   });
   it("lucro de equipamento fica com quem forneceu", () => {
     expect(r.eu.equipmentProfit).toBe(100);
     expect(r.hellios.equipmentProfit).toBe(50);
   });
   it("reembolso não é contado duas vezes", () => {
-    expect(r.eu.netProfit).toBe(100 + 200 - 50 - 27 + 27);
+    expect(r.eu.netProfit).toBe(100 + 225 - 50 - 27 + 27);
     expect(r.eu.netProfit + r.hellios.netProfit).toBeCloseTo(r.netProfit);
   });
   it("repasse entre os dois", () => {
-    expect(r.transfer).toEqual({ from: "EU", to: "HELLIOS", amount: 450 });
+    expect(r.transfer).toEqual({ from: "EU", to: "HELLIOS", amount: 475 });
   });
 });

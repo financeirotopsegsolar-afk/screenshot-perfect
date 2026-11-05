@@ -28,7 +28,8 @@ export const itemProfit = (i: Item) => n(i.sale_value) - itemCost(i);
 /**
  * Regras:
  * - Cada um fica com a receita/lucro e custo dos equipamentos que forneceu (compartilhado = 50/50).
- * - Mão de obra = recebimentos do cliente − vendas de equipamentos − taxas do cartão, sempre 50/50.
+ * - Mão de obra = recebimentos do cliente (já líquidos das taxas do cartão) − vendas de equipamentos, sempre 50/50.
+ * - Taxas do cartão são informativas: já saíram do valor recebido, então não são descontadas de novo.
  * - Despesas individuais ficam com quem pagou; compartilhadas são divididas igualmente.
  * - Reembolsos não entram na mão de obra: vão direto para quem recebeu, compensando a despesa.
  */
@@ -40,8 +41,8 @@ export function compute(items: Item[], expenses: Expense[], receipts: Receipt[])
   const totalCosts = items.reduce((s, i) => s + itemCost(i), 0);
   const cardFees = expenses.filter((e) => e.is_card_fee).reduce((s, e) => s + n(e.amount), 0);
   const otherExpenses = expenses.filter((e) => !e.is_card_fee).reduce((s, e) => s + n(e.amount), 0);
-  const totalExpenses = cardFees + otherExpenses;
-  const laborTotal = clientReceived - totalSales - cardFees;
+  const totalExpenses = otherExpenses;
+  const laborTotal = clientReceived - totalSales;
   const netProfit = totalReceived - totalCosts - totalExpenses;
 
   const person = (p: Person): PersonResult => {
